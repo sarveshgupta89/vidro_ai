@@ -1,0 +1,186 @@
+import type { Template } from '../types/template';
+
+export const TEMPLATES: Template[] = [
+  {
+    id: 't1',
+    name: 'Dynamic Zoom',
+    category: 'Apparel',
+    thumbnailUrl: 'https://picsum.photos/seed/t1/200/300',
+    description: 'A punchy zoom-in that frames your garment hero shot with energy and attitude.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a high-energy fashion video director specializing in bold, fast-paced apparel ads.',
+      userPromptTemplate: 'Create a {duration}s dynamic zoom video of {productDescription}. Style: bold, high-contrast, fast cuts. Show the garment from multiple angles with kinetic energy.',
+      negativePrompt: 'blurry, slow, static, boring, low quality',
+      styleModifiers: ['dynamic zoom', 'high contrast', 'fashion editorial', 'kinetic motion'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 1500, transition: 'zoom' },
+        { index: 1, durationMs: 2000, transition: 'cut' },
+        { index: 2, durationMs: 1500, transition: 'fade' },
+      ],
+      musicTrack: 'upbeat-retail',
+      aspectRatios: ['9:16', '1:1'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: "Drop it like it's hot — new arrivals just landed.",
+      cta: 'Shop the look →',
+      tags: ['fashion', 'apparel', 'new arrivals', 'style', 'zoom'],
+      bestFor: ['Instagram Reels', 'TikTok'],
+    },
+  },
+  {
+    id: 't2',
+    name: 'Sparkle Reveal',
+    category: 'Jewelry',
+    thumbnailUrl: 'https://picsum.photos/seed/t2/200/300',
+    description: 'A luxurious light-sweep reveal that makes gemstones and metals catch the eye.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a luxury jewelry video director who uses light and macro photography to make pieces dazzle.',
+      userPromptTemplate: 'Create a {duration}s sparkle reveal video of {productDescription}. Use dramatic light sweeps, close-up macro shots, and a slow-reveal technique that builds desire.',
+      negativePrompt: 'dark, muddy colors, dull, low resolution, artificial looking',
+      styleModifiers: ['macro photography', 'light sweep', 'sparkle', 'luxury', 'slow reveal'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 2000, transition: 'fade' },
+        { index: 1, durationMs: 1500, transition: 'slide' },
+        { index: 2, durationMs: 1500, transition: 'fade' },
+      ],
+      musicTrack: 'elegant-ambient',
+      aspectRatios: ['9:16', '1:1', '16:9'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: 'Every detail deserves to be seen.',
+      cta: 'Discover the collection →',
+      tags: ['jewelry', 'luxury', 'sparkle', 'gemstone', 'reveal'],
+      bestFor: ['Instagram Feed', 'Pinterest', 'Facebook Ads'],
+    },
+  },
+  {
+    id: 't3',
+    name: 'Soft Glow',
+    category: 'Beauty',
+    thumbnailUrl: 'https://picsum.photos/seed/t3/200/300',
+    description: 'A dreamy, soft-focus treatment that gives beauty products an aspirational glow.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a beauty brand video director specializing in soft, aspirational aesthetics that evoke confidence and desire.',
+      userPromptTemplate: 'Create a {duration}s soft glow video of {productDescription}. Use warm lighting, shallow depth of field, and gentle movement to convey luxury and self-care.',
+      negativePrompt: 'harsh lighting, dark, industrial, cold tones, busy background',
+      styleModifiers: ['soft bokeh', 'warm tones', 'beauty editorial', 'dreamy', 'aspirational'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 1800, transition: 'fade' },
+        { index: 1, durationMs: 1800, transition: 'fade' },
+        { index: 2, durationMs: 1400, transition: 'fade' },
+      ],
+      musicTrack: 'soft-inspiration',
+      aspectRatios: ['9:16', '1:1'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: 'Your glow-up starts here.',
+      cta: 'Try it today →',
+      tags: ['beauty', 'skincare', 'makeup', 'glow', 'self-care'],
+      bestFor: ['Instagram Reels', 'TikTok', 'YouTube Shorts'],
+    },
+  },
+  {
+    id: 't4',
+    name: 'Urban Stride',
+    category: 'Shoes',
+    thumbnailUrl: 'https://picsum.photos/seed/t4/200/300',
+    description: 'Street-culture energy with sharp angles and fast cuts built for footwear drops.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a streetwear and sneaker video director with an eye for urban culture and hype aesthetics.',
+      userPromptTemplate: 'Create a {duration}s urban stride video of {productDescription}. Use gritty urban backdrops, dynamic footwork shots, and high-energy transitions that scream exclusivity.',
+      negativePrompt: 'studio white background, plain, boring, static, low energy',
+      styleModifiers: ['urban grit', 'streetwear aesthetic', 'fast cuts', 'dynamic angles', 'hype culture'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 1200, transition: 'cut' },
+        { index: 1, durationMs: 1300, transition: 'zoom' },
+        { index: 2, durationMs: 1200, transition: 'cut' },
+        { index: 3, durationMs: 1300, transition: 'slide' },
+      ],
+      musicTrack: 'urban-beat',
+      aspectRatios: ['9:16', '1:1'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: 'Walk like you own the city.',
+      cta: 'Cop the drip →',
+      tags: ['shoes', 'sneakers', 'streetwear', 'urban', 'footwear', 'drop'],
+      bestFor: ['TikTok', 'Instagram Reels', 'Snapchat'],
+    },
+  },
+  {
+    id: 't5',
+    name: 'Minimalist Pan',
+    category: 'Apparel',
+    thumbnailUrl: 'https://picsum.photos/seed/t5/200/300',
+    description: 'Clean, slow pans on neutral backgrounds — let the garment speak for itself.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a minimalist fashion photographer and director whose work appears in high-end lifestyle publications.',
+      userPromptTemplate: 'Create a {duration}s minimalist pan video of {productDescription}. Use a neutral or white background, slow deliberate camera movement, and refined lighting to highlight cut and texture.',
+      negativePrompt: 'busy background, fast movement, cluttered, colorful props, distracting elements',
+      styleModifiers: ['minimalist', 'slow pan', 'neutral background', 'editorial clean', 'texture focus'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 2500, transition: 'slide' },
+        { index: 1, durationMs: 2500, transition: 'fade' },
+      ],
+      musicTrack: 'minimal-chill',
+      aspectRatios: ['9:16', '1:1', '16:9'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: 'Less noise. More style.',
+      cta: 'Shop essentials →',
+      tags: ['minimalist', 'apparel', 'clean aesthetic', 'wardrobe staple', 'basics'],
+      bestFor: ['Instagram Feed', 'Pinterest', 'Facebook Ads'],
+    },
+  },
+  {
+    id: 't6',
+    name: 'Luxury Spin',
+    category: 'Jewelry',
+    thumbnailUrl: 'https://picsum.photos/seed/t6/200/300',
+    description: 'A 360° rotating showcase that highlights every facet and fine detail.',
+    creditCost: 5,
+    prompt: {
+      systemPrompt: 'You are a luxury product videographer specializing in 360° turntable-style jewelry and accessory presentations.',
+      userPromptTemplate: 'Create a {duration}s luxury spin video of {productDescription}. Show a smooth 360° rotation with studio lighting that catches every facet and surface detail, evoking craftsmanship and prestige.',
+      negativePrompt: 'shaky, rushed, low resolution, poor lighting, amateur',
+      styleModifiers: ['360 rotation', 'studio lighting', 'luxury product photography', 'facet detail', 'prestige'],
+    },
+    editing: {
+      clips: [
+        { index: 0, durationMs: 2000, transition: 'fade' },
+        { index: 1, durationMs: 1500, transition: 'zoom' },
+        { index: 2, durationMs: 1500, transition: 'fade' },
+      ],
+      musicTrack: 'elegant-ambient',
+      aspectRatios: ['9:16', '1:1', '16:9'],
+      outputDurationMs: 5000,
+    },
+    marketing: {
+      hook: 'Crafted for those who notice the details.',
+      cta: 'View the full collection →',
+      tags: ['jewelry', 'luxury', 'spin', '360', 'accessories', 'fine jewelry'],
+      bestFor: ['Instagram Feed', 'Pinterest', 'E-commerce'],
+    },
+  },
+];
+
+export const CATEGORIES = ['All', ...Array.from(new Set(TEMPLATES.map(t => t.category)))];

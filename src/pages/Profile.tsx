@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { db, auth, isFirebaseConfigured } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -7,6 +8,7 @@ import { Loader2, User, Mail, Lock, Shield, CreditCard, Save } from 'lucide-reac
 import { captureEvent } from '../lib/posthog';
 
 export const Profile = () => {
+  const navigate = useNavigate();
   const { user, userData, setUserData } = useUserStore();
   const [displayName, setDisplayName] = useState(userData?.display_name || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -82,7 +84,7 @@ export const Profile = () => {
             <User className="w-5 h-5" />
             <span>Profile Information</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-xl font-medium transition-colors">
+          <button onClick={() => navigate('/billing')} className="w-full flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-xl font-medium transition-colors">
             <CreditCard className="w-5 h-5" />
             <span>Billing & Subscription</span>
           </button>
@@ -193,7 +195,7 @@ export const Profile = () => {
                 <p className="text-lg font-bold text-white">{userData?.subscription_tier || 'Starter'} Plan</p>
                 <p className="text-sm text-gray-400 mt-1">{userData?.credits_balance || 0} credits remaining</p>
               </div>
-              <button className="px-4 py-2 bg-white text-black hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+              <button onClick={() => navigate('/billing')} className="px-4 py-2 bg-white text-black hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
                 Manage Billing
               </button>
             </div>

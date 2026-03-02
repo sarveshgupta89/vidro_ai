@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useUserStore } from '../store/userStore';
 import { Check } from 'lucide-react';
+import { Breadcrumb } from '../components/Breadcrumb';
 
 export const Upgrade = () => {
   const { user, userData } = useUserStore();
@@ -41,6 +42,11 @@ export const Upgrade = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <Breadcrumb crumbs={[
+        { label: 'Profile', path: '/profile' },
+        { label: 'Billing & Subscription', path: '/billing' },
+        { label: 'Buy More Credits', path: '/upgrade' },
+      ]} />
       <div className="text-center mb-16">
         <h1 className="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
           Pricing Plans

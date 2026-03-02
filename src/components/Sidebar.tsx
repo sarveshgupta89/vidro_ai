@@ -3,15 +3,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { auth, isFirebaseConfigured } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { 
-  Video, 
-  Image as ImageIcon, 
-  Clock, 
-  LayoutTemplate, 
-  LogOut, 
-  HelpCircle, 
-  FileText, 
-  Shield 
+import {
+  Video,
+  Image as ImageIcon,
+  Clock,
+  LayoutTemplate,
+  LogOut,
+  HelpCircle,
+  FileText,
+  Shield,
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';

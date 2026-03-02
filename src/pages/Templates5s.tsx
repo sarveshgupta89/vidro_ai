@@ -6,24 +6,18 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { captureEvent } from '../lib/posthog';
 import { Loader2, Upload, LayoutTemplate, Play, Download, Maximize2, History, X } from 'lucide-react';
 import { cn } from '../components/Sidebar';
-
-const TEMPLATES = [
-  { id: 't1', name: 'Dynamic Zoom', category: 'Apparel', image: 'https://picsum.photos/seed/t1/200/300' },
-  { id: 't2', name: 'Sparkle Reveal', category: 'Jewelry', image: 'https://picsum.photos/seed/t2/200/300' },
-  { id: 't3', name: 'Soft Glow', category: 'Beauty', image: 'https://picsum.photos/seed/t3/200/300' },
-  { id: 't4', name: 'Urban Stride', category: 'Shoes', image: 'https://picsum.photos/seed/t4/200/300' },
-  { id: 't5', name: 'Minimalist Pan', category: 'Apparel', image: 'https://picsum.photos/seed/t5/200/300' },
-  { id: 't6', name: 'Luxury Spin', category: 'Jewelry', image: 'https://picsum.photos/seed/t6/200/300' },
-];
-
-const CATEGORIES = ['All', 'Apparel', 'Shoes', 'Beauty', 'Jewelry'];
+import { useLocation } from 'react-router-dom';
+import { TEMPLATES, CATEGORIES } from '../data/templates';
 
 export const Templates5s = () => {
   const { user, userData } = useUserStore();
+  const location = useLocation();
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(
+    (location.state as { templateId?: string } | null)?.templateId ?? null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(false);
@@ -118,6 +112,7 @@ export const Templates5s = () => {
       captureEvent('5s_video_generation_started', { projectId: docRef.id, templateId: selectedTemplate });
       
       // 3. Call backend to deduct credits and start GPU job
+      const templateData = TEMPLATES.find(t => t.id === selectedTemplate);
       const response = await fetch('/api/trigger-5sec-generation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,7 +120,12 @@ export const Templates5s = () => {
           userId: user.uid,
           projectId: docRef.id,
           imageUrl: uploadedImageUrl,
-          templateId: selectedTemplate
+          templateId: selectedTemplate,
+          templateConfig: templateData ? {
+            prompt: templateData.prompt,
+            editing: templateData.editing,
+            marketing: templateData.marketing,
+          } : undefined,
         })
       });
       
@@ -217,7 +217,10 @@ export const Templates5s = () => {
               {selectedTemplate ? (
                 <div className="flex items-center space-x-3">
                   <LayoutTemplate className="w-6 h-6 text-indigo-400" />
-                  <span className="font-medium text-white">{TEMPLATES.find(t => t.id === selectedTemplate)?.name}</span>
+                  <div className="text-left">
+                    <p className="font-medium text-white text-sm">{TEMPLATES.find(t => t.id === selectedTemplate)?.name}</p>
+                    <p className="text-xs text-gray-500">{TEMPLATES.find(t => t.id === selectedTemplate)?.category}</p>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -335,19 +338,35 @@ export const Templates5s = () => {
             <div className="flex-1 overflow-y-auto p-6">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredTemplates.map(template => (
-                  <div 
+                  <div
                     key={template.id}
                     onClick={() => handleTemplateSelect(template.id)}
-                    className="group cursor-pointer"
+                    className={cn(
+                      "group cursor-pointer rounded-xl border-2 overflow-hidden transition-colors",
+                      selectedTemplate === template.id
+                        ? "border-indigo-500"
+                        : "border-transparent hover:border-indigo-500/60",
+                    )}
                   >
-                    <div className="aspect-[9/16] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-indigo-500 transition-colors relative mb-3">
-                      <img src={template.image} alt={template.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <Play className="w-12 h-12 text-white" />
+                    <div className="aspect-[9/16] relative overflow-hidden">
+                      <img src={template.thumbnailUrl} alt={template.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <Play className="w-10 h-10 text-white" />
+                      </div>
+                      <span className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        ⚡ {template.creditCost}
+                      </span>
+                    </div>
+                    <div className="p-3 bg-[#1a1a1a]">
+                      <h4 className="font-semibold text-white text-sm group-hover:text-indigo-400 transition-colors">{template.name}</h4>
+                      <p className="text-xs text-gray-500 mt-0.5">{template.category}</p>
+                      <p className="text-xs text-gray-400 mt-1.5 line-clamp-2">{template.description}</p>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {template.marketing.bestFor.slice(0, 2).map(b => (
+                          <span key={b} className="text-[10px] bg-indigo-500/15 text-indigo-300 px-1.5 py-0.5 rounded-full">{b}</span>
+                        ))}
                       </div>
                     </div>
-                    <h4 className="font-medium text-white group-hover:text-indigo-400 transition-colors">{template.name}</h4>
-                    <p className="text-xs text-gray-500">{template.category}</p>
                   </div>
                 ))}
               </div>

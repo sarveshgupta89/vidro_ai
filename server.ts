@@ -5,7 +5,8 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config();                          // load .env
+dotenv.config({ path: '.env.local', override: true }); // .env.local takes precedence
 
 // Initialize Firebase Admin
 // We need to use a service account or application default credentials.
@@ -158,6 +159,26 @@ async function startServer() {
     }
   });
 
+  app.post('/api/create-portal-session', async (req, res) => {
+    if (!stripe) {
+      return res.status(500).json({ error: 'Stripe not configured' });
+    }
+    try {
+      const { customerId } = req.body;
+      if (!customerId) {
+        return res.status(400).json({ error: 'No Stripe customer ID found. Please make a purchase first.' });
+      }
+      const session = await stripe.billingPortal.sessions.create({
+        customer: customerId,
+        return_url: `${process.env.APP_URL || 'http://localhost:3000'}/billing`,
+      });
+      res.json({ url: session.url });
+    } catch (error: any) {
+      console.error('Error creating portal session:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   app.post('/api/trigger-image-generation', async (req, res) => {
     try {
       const { userId, projectId, prompt } = req.body;
@@ -224,8 +245,17 @@ async function startServer() {
 
   app.post('/api/trigger-5sec-generation', async (req, res) => {
     try {
-      const { userId, projectId, imageUrl, templateId } = req.body;
-      
+      const { userId, projectId, imageUrl, templateId, templateConfig } = req.body;
+
+      // templateConfig contains the 3-layer template definition:
+      // templateConfig.prompt  — AI prompt layer (systemPrompt, userPromptTemplate, styleModifiers)
+      // templateConfig.editing — Editing layer (clips, transitions, aspectRatios)
+      // templateConfig.marketing — Marketing layer (hook, cta, bestFor tags)
+      // TODO: pass templateConfig.prompt to AI API (Kling/Veo) and templateConfig.editing to Shotstack/Creatomate
+      if (templateConfig) {
+        console.log(`[5s-gen] Template config received for templateId=${templateId}:`, JSON.stringify(templateConfig, null, 2));
+      }
+
       const userRef = db.collection('users').doc(userId);
       const userDoc = await userRef.get();
       
