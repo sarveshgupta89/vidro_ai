@@ -68,7 +68,7 @@ export const PrivacyPolicy = () => (
         We may collect, hold, use, and disclose information for the following purposes, and personal information will not be further processed in a manner that is incompatible with these purposes:
       </p>
       <BulletList items={[
-        'to provide you with our platform's core features and services',
+        "to provide you with our platform's core features and services",
         'to enable you to access and use our website and associated applications',
         'to process payments for credits and subscriptions',
         'to send you technical notices, updates, security alerts, and support messages',
