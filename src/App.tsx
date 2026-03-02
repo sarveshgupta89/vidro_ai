@@ -6,9 +6,12 @@ import { Upgrade } from './pages/Upgrade';
 import { VideoCreator } from './pages/VideoCreator';
 import { Templates5s } from './pages/Templates5s';
 import { Profile } from './pages/Profile';
-import { DummyPage } from './pages/DummyPage';
 import { Billing } from './pages/Billing';
 import { TemplatesGallery } from './pages/TemplatesGallery';
+import { Assets } from './pages/Assets';
+import { Help } from './pages/Help';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsAndConditions } from './pages/TermsAndConditions';
 import { initPostHog } from './lib/posthog';
 
 export default function App() {
@@ -20,20 +23,20 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        
+
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<VideoCreator />} />
-          <Route path="/assets" element={<DummyPage title="Assets" description="Manage your uploaded images, videos, and audio files here." />} />
+          <Route path="/assets" element={<Assets />} />
           <Route path="/templates-5s" element={<Templates5s />} />
           <Route path="/templates" element={<TemplatesGallery />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/upgrade" element={<Upgrade />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/help" element={<DummyPage title="Help & FAQ" description="Find answers to common questions and learn how to use Vidro AI." />} />
-          <Route path="/terms-and-conditions" element={<DummyPage title="Terms & Conditions" description="Read our terms of service and usage policies." />} />
-          <Route path="/privacy-policy" element={<DummyPage title="Privacy Policy" description="Learn how we collect, use, and protect your data." />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Route>
-        
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

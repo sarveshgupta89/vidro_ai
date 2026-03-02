@@ -28,15 +28,26 @@ export interface MarketingLayer {
   bestFor: string[];
 }
 
+export interface TemplateFilters {
+  season: string[];
+  occasion: string[];
+  styleAndTone: string[];
+  colorPalette: string[];
+  platform: string[];
+}
+
 export interface Template {
   id: string;
   name: string;
   category: string;
+  subCategory: string;
   thumbnailUrl: string;
   previewVideoUrl?: string;
   description: string;
   creditCost: number;
+  durationSeconds: number;
   prompt: PromptLayer;
   editing: EditingLayer;
   marketing: MarketingLayer;
+  filters: TemplateFilters;
 }
