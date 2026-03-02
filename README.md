@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # Vidro AI
 
 AI-powered video creation platform for e-commerce brands. Generate long-form product videos and 5-second social clips using customizable templates — powered by Firebase, Stripe, and a hybrid AI + programmatic editing pipeline.
